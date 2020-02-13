@@ -1,0 +1,4 @@
+#!/bin/bash
+rm concentrate
+clear
+gcc -o concentrate concentrate.c args_interpret/args.c user_input/user_input.c -lrt

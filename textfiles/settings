@@ -1,0 +1,4 @@
+NEXTJUMP : 3600
+DEFAULT_TIME: 15
+DEFAULTS_PATH : /textfiles/defaultblock
+EXIT_PATH : /home/david/Desktop/dumb
