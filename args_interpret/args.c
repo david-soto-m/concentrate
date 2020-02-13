@@ -70,7 +70,6 @@ void getsettings(){
 		if(pf){//If successfuly open
 			char allcrits=0,buff1[100], buff2[100];
 			while (fscanf(pf,"%s : %s \n",buff1,buff2)>0){
-				printf("[%s]->%s\n",buff1,buff2);
 				if(strcmp(buff1,"NEXTJUMP")==0){
 					int sure;
 					if(sscanf(buff2,"%d",&sure)==1&&sure!=0){
@@ -103,11 +102,12 @@ void getsettings(){
 						printf("DEFAULT_TIME needs to be a non zero int\n");
 					}
 				}else{
-					printf("Invalid assignment\n");
+					printf("Invalid asignment\n");
 				}
 			}
 			if(allcrits!=ARGS){
 				printf("ERROR: SETTINGS not right\n");
+				exit(0);
 			}
 			fclose(pf);
 		}else{
@@ -141,8 +141,9 @@ void getsettings(){
 			FILE *pf=fopen(file,"w");
 			if(pf){
 				fprintf(pf,"NEXTJUMP : 3600\n");
-				fprintf(pf, "DEFAULTS_PATH : /textfiles/defaultblock\n");
-				fprintf(pf,"EXIT_PATH : %s/Desktop/dumb\n",getenv("HOME"));
+				fprintf(pf,"DEFAULT_TIME : 15\n");
+				fprintf(pf, "DEFAULTS_PATH : textfiles/defaultblock\n");
+				fprintf(pf,"EXIT_PATH : %s/.bashrc\n",getenv("HOME"));
 				fclose(pf);
 			}else{
 				printf("You need a directory called textfiles and permission to access it\n");
@@ -154,7 +155,6 @@ void getsettings(){
 
 void getargs(context *contextvar,int argc, char const *argv[]){
 	getsettings();
-	exit(0);//DEBUG
 	context cont=*contextvar;
 	filesys filer={.pf=NULL,.length=0};//init the filesystem
 	//REGION ARGS
@@ -197,7 +197,7 @@ void getargs(context *contextvar,int argc, char const *argv[]){
 			filer.pf=(FILE **)malloc(filer.length*sizeof(FILE*));//generates a list of file pointers
 			poopfiles(&cont,&filer,1,files);
 		}
-	//REGION ANOUNCMENT
+	//REGION ANNOUNCMENT
 			printf("I will block:\n");
 		for(int j=0;j<cont.length;j++){
 			printf("\t%s\n",cont.killlist[j]);

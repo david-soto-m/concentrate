@@ -18,7 +18,7 @@ void user_inter_handler(){
 		static struct timespec time_last_act={.tv_sec=0,.tv_nsec=0};
 		if (flag==0){
 			clock_gettime(CLOCK_REALTIME,&time_last_act);
-		}
+		} 
 	//ENDREGION
 	//REGION TIMER BUILD
 		timer_t temp;
