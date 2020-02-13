@@ -57,7 +57,7 @@ int main(int argc, char const *argv[]){
 			char instruction[100];
 			sprintf(instruction,"killall -q %s\n",cont.killlist[i]);
 			printf("%s",instruction);
-			// system(instruction);
+			system(instruction);
 		}
 	}
 
