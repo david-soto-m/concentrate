@@ -59,8 +59,8 @@ void user_inter_handler(){
 		}
 		else if(strcmp(buff,"q")==0){
 			printf("exiting\n");
-			char instruction[100];
-			sprintf(instruction,"%s %s/%s","sed -i '$d'" ,getenv("HOME"),"Desktop/dumb");//No way to delete a closed folder
+			char instruction[180];
+			sprintf(instruction,"%s %s","sed -i '$d'" ,cont.exit_path);//No way to delete a closed folder
 			system(instruction);
 			exit(0);
 		}
