@@ -64,7 +64,8 @@ void displayhelp(){
 }
 
 void getsettings(){
-	const char file[100]="textfiles/settings";
+	char file[100];
+	sprintf(file,"%s%s",getenv("HOME"),"/.concentrate/settings");
 	if (access(file,R_OK)==0){
 		FILE *pf=fopen(file,"r");//opens the file
 		if(pf){//If successfuly open
@@ -73,7 +74,7 @@ void getsettings(){
 				if(strcmp(buff1,"NEXTJUMP")==0){
 					int sure;
 					if(sscanf(buff2,"%d",&sure)==1&&sure!=0){
-						cont.nextjump=sure>0?sure:-sure;
+						cont.nextjump=sure>0?sure*60:-sure*60;
 						allcrits+=1;
 					}else{
 						printf("NEXTJUMP needs to be a non zero int \n");
@@ -101,6 +102,15 @@ void getsettings(){
 					}else{
 						printf("DEFAULT_TIME needs to be a non zero int\n");
 					}
+				}else if((strcmp(buff1,"INFO_TIME")==0)){
+					int sure;
+					if(sscanf(buff2,"%d",&sure)==1&&sure!=0){
+						cont.info_time=sure>0?sure*60:-sure*60;
+						allcrits+=16;
+					}else{
+						printf("INFO_TIME needs to be a non zero int\n");
+					}
+
 				}else{
 					printf("Invalid asignment\n");
 				}
@@ -120,33 +130,37 @@ void getsettings(){
 		if (access(file,F_OK)==0){
 			all_right=1;
 		}else if (ENOENT == errno){
+			char dir[100];
+			sprintf(dir,"%s%s",getenv("HOME"),"/.concentrate");
 			struct stat st = {0};
-			if (stat("textfiles", &st) == -1) {
+			if (stat(dir, &st) == -1) {
 				printf("No directory found\n");
-				if(mkdir("textfiles",0700)==0){
+				if(mkdir(dir,0700)==0){
 					printf("Making directory\n");
 					all_right=1;
 				}else{
 					printf("Problem making directory\n");
-					printf("You need a directory called textfiles and permission to access it\n");
+					printf("You need a directory in home called .concentrate and permission to access it\n");
 				}
 			}else{
 				all_right=1;
 			}
 		}else{
-			printf("You need a directory called textfiles and permission to access it\n");
+			printf("You need a directory in home called .concentrate and permission to access it\n");
+
 		}
 		if(all_right){
 			printf("File is non existant. Creating and exiting\n");
 			FILE *pf=fopen(file,"w");
 			if(pf){
-				fprintf(pf,"NEXTJUMP : 3600\n");
+				fprintf(pf,"NEXTJUMP : 30\n");
 				fprintf(pf,"DEFAULT_TIME : 15\n");
-				fprintf(pf, "DEFAULTS_PATH : textfiles/defaultblock\n");
+				fprintf(pf, "INFO_TIME : 5\n");
+				fprintf(pf, "DEFAULTS_PATH : %s%s/defaultblock\n",getenv("HOME"),"/.concentrate");
 				fprintf(pf,"EXIT_PATH : %s/.bashrc\n",getenv("HOME"));
 				fclose(pf);
 			}else{
-				printf("You need a directory called textfiles and permission to access it\n");
+				printf("You need a directory in home called .concentrate and permission to access it\n");
 			}
 		}
 		exit(0);

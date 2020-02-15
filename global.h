@@ -17,10 +17,11 @@
 		int length;
 		unsigned short int errorstatus :1;
 		struct timespec timerep;
-		//
+		//FromSettings
 		int nextjump;
 		char defaults_path[100], exit_path[100];
 		struct timespec time_default;
+		int info_time;
 	}context;
 	context cont;
 #endif

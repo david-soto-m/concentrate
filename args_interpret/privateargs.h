@@ -1,4 +1,4 @@
-#define ARGS 15
+#define ARGS 31
 typedef struct{
 	int length;
 	FILE **pf;

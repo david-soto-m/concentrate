@@ -13,10 +13,10 @@ int main(int argc, char const *argv[]){
 			fprintf(pf,"\nexit");
 			fclose(pf);
 		}else{
-			printf("ERROR adding exit instruction to bash_aliases\n");
+			printf("ERROR adding exit instruction to %s\n",cont.exit_path);
 		}
 	}else{
-		printf("not write accessible\n");
+		printf("ERROR %s not write accessible\n",cont.exit_path);
 	}
 	sigset_t sensible_set, unsensible_set,clock_set;
 	sigemptyset(&sensible_set);
@@ -32,7 +32,6 @@ int main(int argc, char const *argv[]){
 	sigact action_time={.sa_flags=SA_SIGINFO};
 	sigaction(SIGINT,&action_ctrl_c,NULL);//handles control C interactions
 	sigaction(SIGRTMIN+2,&action_time,NULL);
-	siginfo_t info;
 	
 	user_inter_handler();
 	
@@ -53,16 +52,19 @@ int main(int argc, char const *argv[]){
 		printf("ERROR creating timer\n");
 	}
 
-
+	int counts_per_minutes_group=(cont.info_time)/cont.timerep.tv_sec;
+	long int count=0;
 	while(noerror){
-		sigwaitinfo(&clock_set,&info);
+		sigwaitinfo(&clock_set,NULL);
 		for(int i=0;i<cont.length;i++){
 			char instruction[100];
-			sprintf(instruction,"killall -q %s\n",cont.killlist[i]);
-			printf("%s",instruction);
+			sprintf(instruction,"killall -q %s\n",cont.killlist[i]);		
 			system(instruction);
 		}
+		if(count%counts_per_minutes_group==0){
+			printf("Han pasado %ld minutos\n",((count*cont.timerep.tv_sec)/60));
+		}
+		count++;
 	}
-
 	return 0;
 }
