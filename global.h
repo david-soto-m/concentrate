@@ -18,6 +18,7 @@
 		unsigned short int errorstatus :1;
 		struct timespec timerep;
 		//FromSettings
+		char exit;
 		int nextjump;
 		char defaults_path[100], exit_path[100];
 		struct timespec time_default;

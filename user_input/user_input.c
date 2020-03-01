@@ -42,7 +42,24 @@ void user_inter_handler(){
 		printf("\nInteracting:\t");
 		timesig=scanf("%10s %d",buff,&mins);
 	}
-	if(timesig==2){
+	if (timesig==1){
+		if(strcmp(buff,"q")==0){
+			printf("exiting\n");
+			char instruction[180];
+			if(cont.exit==1){
+				sprintf(instruction,"%s %s","sed -i '$d'" ,cont.exit_path);//No way to delete a closed folder
+				system(instruction);
+			}
+			exit(0);
+		}
+		else{
+			printf("Actions:\n");
+			printf("\tq var?: Quits\n");
+			printf("\tt var: Time Off\n");
+			printf("\tn var: Sets Next Period\n");
+		}
+	}
+	else if(timesig==2){
 		a.it_value=time0;a.it_interval=time0;//cancel the timer
 		timer_settime(temp,0,&a,NULL);
 
@@ -60,15 +77,17 @@ void user_inter_handler(){
 		else if(strcmp(buff,"q")==0){
 			printf("exiting\n");
 			char instruction[180];
-			sprintf(instruction,"%s %s","sed -i '$d'" ,cont.exit_path);//No way to delete a closed folder
-			system(instruction);
+			if(cont.exit==1){
+				sprintf(instruction,"%s %s","sed -i '$d'" ,cont.exit_path);//No way to delete a closed folder
+				system(instruction);
+			}
 			exit(0);
 		}
 		else{
 			printf("Actions:\n");
-			printf("\tq var: Quits\n");
-			printf("\tt var: Time Off\n");
-			printf("\tn var: Sets Next Period\n");
+			printf("\tq var?:\tQuits\n");
+			printf("\tt var:\tTime Off\n");
+			printf("\tn var:\tSets Next Period\n");
 		}
 	}
 	else{

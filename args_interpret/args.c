@@ -21,13 +21,17 @@ void poopfiles(context *contextvar,filesys *filesysvar,int argc, char const *fil
 							inword_tracker++;
 					}
 					else if(buffer==10||buffer==9){
-						line_tracker++;
-						inword_tracker=0;
-						cont.length++;
+							inword_tracker=0;
+							if(strlen(cont.killlist[line_tracker])!=0){
+								cont.length++;
+								line_tracker++;
+							}
 					}
 					else{
+						if(strlen(cont.killlist[line_tracker])!=0){
+							cont.length++;
+						}
 						not_ended=0;
-						cont.length++;
 					}
 				}
 				fclose(filer.pf[j]);
@@ -57,8 +61,9 @@ void displayhelp(){
 	printf("\t\t\tscheme only checks if the char is used in \n");
 	printf("\t\t\tprocess names. Provide n paths either relative or\n");
 	printf("\t\t\tabsolute\n");
+	printf("\t-N:\tDisables the printing of an exit in a file.");
 	printf("Actions:\n");
-	printf("\tq var: Quits\n");
+	printf("\tq var?: Quits\n");
 	printf("\tt var: Time Off\n");
 	printf("\tn var: Sets Next Period\n");
 }
@@ -69,27 +74,44 @@ void getsettings(){
 	if (access(file,R_OK)==0){
 		FILE *pf=fopen(file,"r");//opens the file
 		if(pf){//If successfuly open
-			char allcrits=0,buff1[100], buff2[100];
+			char flags[OBLIG_ARGS];
+			memset(&flags,0,sizeof(flags));
+			char buff1[100], buff2[100];
+			cont.exit=1;
 			while (fscanf(pf,"%s : %s \n",buff1,buff2)>0){
 				if(strcmp(buff1,"NEXTJUMP")==0){
 					int sure;
 					if(sscanf(buff2,"%d",&sure)==1&&sure!=0){
 						cont.nextjump=sure>0?sure*60:-sure*60;
-						allcrits+=1;
+						flags[0]=1;
 					}else{
 						printf("NEXTJUMP needs to be a non zero int \n");
 					}
 				}else if(strcmp(buff1,"DEFAULTS_PATH")==0){
 					if (access(buff2,F_OK)==0){
 						strcpy(cont.defaults_path,buff2);
-						allcrits+=2;
+						flags[1]=1;
 					}else{
 						printf("DEFAULTS_PATH is not accessible or existant\n");
+						if(errno==ENOTDIR){
+							printf("Path is not pointing to an existing directory for the file\n");
+						}
+						else{
+							FILE *pfdb=fopen(buff2,"w");
+							if(pfdb){
+								printf("Creating file:\n");
+								fprintf(pfdb,"rythmbox\nvlc\n");
+								fclose(pfdb);
+								flags[1]=1;
+							}else{
+								printf("You need a file pointed by a path by DEFAULTS_PATH and permission to access it\n");
+							}
+						}
 					}
 				}else if(strcmp(buff1,"EXIT_PATH")==0){
 					if (access(buff2,F_OK)==0){
 						strcpy(cont.exit_path,buff2);
-						allcrits+=4;
+						flags[2]=1;
 					}else{
 						printf("EXIT_PATH is not accessible or existant\n");
 					}
@@ -98,26 +120,35 @@ void getsettings(){
 					if(sscanf(buff2,"%d",&sure)==1&&sure!=0){
 						cont.time_default.tv_sec=sure>0?sure:-sure;
 						cont.time_default.tv_nsec=0;
-						allcrits+=8;
+						flags[3]=1;
 					}else{
 						printf("DEFAULT_TIME needs to be a non zero int\n");
 					}
-				}else if((strcmp(buff1,"INFO_TIME")==0)){
+				}else if(strcmp(buff1,"INFO_TIME")==0){
 					int sure;
 					if(sscanf(buff2,"%d",&sure)==1&&sure!=0){
 						cont.info_time=sure>0?sure*60:-sure*60;
-						allcrits+=16;
+						flags[4]=1;
 					}else{
 						printf("INFO_TIME needs to be a non zero int\n");
 					}
-
+				}else if(strcmp(buff1,"EXIT")==0){//optional argument
+					if(strcmp(buff2,"FALSE")==0){
+						cont.exit=0;
+					}else{
+						cont.exit=1;
+					}
 				}else{
 					printf("Invalid asignment\n");
 				}
 			}
-			if(allcrits!=ARGS){
-				printf("ERROR: SETTINGS not right\n");
-				exit(0);
+			for(int i=0;i<OBLIG_ARGS;i++){
+				if(flags[i]!=1){
+					printf("ERROR: SETTINGS not right. Please take a look at error message.\n");
+					printf("Modify accordingly ~/.concentrate/settings\n");
+					fclose(pf);
+					exit(0);
+				}	
 			}
 			fclose(pf);
 		}else{
@@ -159,8 +190,17 @@ void getsettings(){
 				fprintf(pf, "DEFAULTS_PATH : %s%s/defaultblock\n",getenv("HOME"),"/.concentrate");
 				fprintf(pf,"EXIT_PATH : %s/.bashrc\n",getenv("HOME"));
 				fclose(pf);
+				FILE *pfdb=fopen(buff2,"w");
+				if(pfdb){
+					printf("Creating file:\n");
+					fprintf(pfdb,"rythmbox\nvlc\n");
+					fclose(pfdb);
+					flags[1]=1;
+				}else{
+					printf("You need a file pointed by a path by DEFAULTS_PATH and permission to access it\n");
+				}
 			}else{
-				printf("You need a directory in home called .concentrate and permission to access it\n");
+				printf("You need a directory in home called .concentrate and permission to access and write on it\n");
 			}
 		}
 		exit(0);
@@ -191,6 +231,9 @@ void getargs(context *contextvar,int argc, char const *argv[]){
 				}
 				else if(strcmp(argv[i],"-t")==0 && i+1<argc &&//TIME 
 					sscanf(argv[i+1],"%ld",&cont.timerep.tv_sec)==1){i++;}
+				else if(strcmp(argv[i],"-N")==0) {
+
+				}
 				else {
 					printf("Invalid argument\n");
 					exit(2);

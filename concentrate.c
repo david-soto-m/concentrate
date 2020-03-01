@@ -6,17 +6,19 @@ int main(int argc, char const *argv[]){
 	getargs(&cont,argc,argv);
 	
 	FILE *pf;
-	if (access(cont.exit_path,W_OK)==0){//Checks file provided for access
-		pf=fopen(cont.exit_path,"a");
-		if(pf){
-			fseek(pf,0,SEEK_END);
-			fprintf(pf,"\nexit");
-			fclose(pf);
+	if (cont.exit==1){
+		if (access(cont.exit_path,W_OK)==0){//Checks file provided for access
+			pf=fopen(cont.exit_path,"a");
+			if(pf){
+				fseek(pf,0,SEEK_END);
+				fprintf(pf,"\nexit");
+				fclose(pf);
+			}else{
+				printf("ERROR adding exit instruction to %s\n",cont.exit_path);
+			}
 		}else{
-			printf("ERROR adding exit instruction to %s\n",cont.exit_path);
+			printf("ERROR %s not write accessible\n",cont.exit_path);
 		}
-	}else{
-		printf("ERROR %s not write accessible\n",cont.exit_path);
 	}
 	sigset_t sensible_set, unsensible_set,clock_set;
 	sigemptyset(&sensible_set);
@@ -58,7 +60,7 @@ int main(int argc, char const *argv[]){
 		sigwaitinfo(&clock_set,NULL);
 		for(int i=0;i<cont.length;i++){
 			char instruction[100];
-			sprintf(instruction,"killall -q %s\n",cont.killlist[i]);		
+			sprintf(instruction,"pkill -KILL %s\n",cont.killlist[i]);		
 			system(instruction);
 		}
 		if(count%counts_per_minutes_group==0){
