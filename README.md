@@ -6,16 +6,15 @@
 <h1>Settings</h1>
 <h2>Syntax</h2>
 <p>
-	The settings will look something like this.
+	All settings should be written like KEYWORD : ARG.The settings will look something like this.
 	<p>
-		NEXTJUMP : 30
-		DEFAULT_TIME : 15
-		INFO_TIME : 5
-		DEFAULTS_PATH : /home/david/.concentrate/defaultblock
-		EXIT_PATH : /home/david/.bashrc
-		EXIT : FALSE
+		NEXTJUMP : 30  
+		DEFAULT_TIME : 15  
+		INFO_TIME : 5  
+		DEFAULTS_PATH : /home/david/.concentrate/defaultblock  
+		EXIT_PATH : /home/david/.bashrc  
+		EXIT : FALSE  
 	</p>
-	All settings should be written like KEYWORD : ARG.
 </p>
 <h2>Arguments</h2>
 <p>
