@@ -6,16 +6,15 @@
 <h1>Settings</h1>
 <h2>Syntax</h2>
 <p>
-	All settings should be written like KEYWORD : ARG.The settings will look something like this.
-	<p>
-		NEXTJUMP : 30  
-		DEFAULT_TIME : 15  
-		INFO_TIME : 5  
-		DEFAULTS_PATH : /home/david/.concentrate/defaultblock  
-		EXIT_PATH : /home/david/.bashrc  
-		EXIT : FALSE  
-	</p>
+All settings should be written like KEYWORD : ARG.The settings will look something like this.
 </p>
+<p>
+NEXTJUMP : 30</p><p>
+DEFAULT_TIME : 15</p><p>
+INFO_TIME : 5</p><p>
+DEFAULTS_PATH : /home/david/.concentrate/defaultblock</p><p>
+EXIT_PATH : /home/david/.bashrc</p><p>
+EXIT : FALSE</p>
 <h2>Arguments</h2>
 <p>
 	NEXTJUMP should be followed by the time period in minutes that you will not allow yourself to interact at all with it. 
