@@ -190,12 +190,12 @@ void getsettings(){
 				fprintf(pf, "DEFAULTS_PATH : %s%s/defaultblock\n",getenv("HOME"),"/.concentrate");
 				fprintf(pf,"EXIT_PATH : %s/.bashrc\n",getenv("HOME"));
 				fclose(pf);
-				FILE *pfdb=fopen(buff2,"w");
+				char file_db[100];
+				sprintf(file_db,"%s%s",getenv("HOME"),"/.concentrate/defaultblock");
+				FILE *pfdb=fopen(file_db,"w");
 				if(pfdb){
-					printf("Creating file:\n");
 					fprintf(pfdb,"rythmbox\nvlc\n");
 					fclose(pfdb);
-					flags[1]=1;
 				}else{
 					printf("You need a file pointed by a path by DEFAULTS_PATH and permission to access it\n");
 				}
