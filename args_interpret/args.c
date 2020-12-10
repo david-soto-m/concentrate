@@ -61,7 +61,7 @@ void displayhelp(){
 	printf("\t\t\tscheme only checks if the char is used in \n");
 	printf("\t\t\tprocess names. Provide n paths either relative or\n");
 	printf("\t\t\tabsolute\n");
-	printf("\t-N:\tDisables the printing of an exit in a file.");
+	printf("\t-N:\tDisables the printing of an exit in a file.\n");
 	printf("Actions:\n");
 	printf("\tq var?: Quits\n");
 	printf("\tt var: Time Off\n");
@@ -70,7 +70,7 @@ void displayhelp(){
 
 void getsettings(){
 	char file[100];
-	sprintf(file,"%s%s",getenv("HOME"),"/.concentrate/settings");
+	sprintf(file,"%s%s",getenv("HOME"),"/.config/concentrate/settings");
 	if (access(file,R_OK)==0){
 		FILE *pf=fopen(file,"r");//opens the file
 		if(pf){//If successfuly open
@@ -145,7 +145,7 @@ void getsettings(){
 			for(int i=0;i<OBLIG_ARGS;i++){
 				if(flags[i]!=1){
 					printf("ERROR: SETTINGS not right. Please take a look at error message.\n");
-					printf("Modify accordingly ~/.concentrate/settings\n");
+					printf("Modify accordingly ~/.config/concentrate/settings\n");
 					fclose(pf);
 					exit(0);
 				}	
@@ -162,7 +162,7 @@ void getsettings(){
 			all_right=1;
 		}else if (ENOENT == errno){
 			char dir[100];
-			sprintf(dir,"%s%s",getenv("HOME"),"/.concentrate");
+			sprintf(dir,"%s%s",getenv("HOME"),"/.config/concentrate");
 			struct stat st = {0};
 			if (stat(dir, &st) == -1) {
 				printf("No directory found\n");
@@ -171,13 +171,13 @@ void getsettings(){
 					all_right=1;
 				}else{
 					printf("Problem making directory\n");
-					printf("You need a directory in home called .concentrate and permission to access it\n");
+					printf("You need a directory in .config called concentrate and permission to access it\n");
 				}
 			}else{
 				all_right=1;
 			}
 		}else{
-			printf("You need a directory in home called .concentrate and permission to access it\n");
+			printf("You need a directory in .config called concentrate and permission to access it\n");
 
 		}
 		if(all_right){
@@ -187,11 +187,11 @@ void getsettings(){
 				fprintf(pf,"NEXTJUMP : 30\n");
 				fprintf(pf,"DEFAULT_TIME : 15\n");
 				fprintf(pf, "INFO_TIME : 5\n");
-				fprintf(pf, "DEFAULTS_PATH : %s%s/defaultblock\n",getenv("HOME"),"/.concentrate");
+				fprintf(pf, "DEFAULTS_PATH : %s%s/defaultblock\n",getenv("HOME"),"/.config/concentrate");
 				fprintf(pf,"EXIT_PATH : %s/.bashrc\n",getenv("HOME"));
 				fclose(pf);
 				char file_db[100];
-				sprintf(file_db,"%s%s",getenv("HOME"),"/.concentrate/defaultblock");
+				sprintf(file_db,"%s%s",getenv("HOME"),"/.config/concentrate/defaultblock");
 				FILE *pfdb=fopen(file_db,"w");
 				if(pfdb){
 					fprintf(pfdb,"rythmbox\nvlc\n");
@@ -200,7 +200,7 @@ void getsettings(){
 					printf("You need a file pointed by a path by DEFAULTS_PATH and permission to access it\n");
 				}
 			}else{
-				printf("You need a directory in home called .concentrate and permission to access and write on it\n");
+				printf("You need a directory in .config called concentrate and permission to access and write on it\n");
 			}
 		}
 		exit(0);

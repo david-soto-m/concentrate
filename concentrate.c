@@ -4,7 +4,6 @@
 int main(int argc, char const *argv[]){
 	memset(&cont,0,sizeof(cont));
 	getargs(&cont,argc,argv);
-	
 	FILE *pf;
 	if (cont.exit==1){
 		if (access(cont.exit_path,W_OK)==0){//Checks file provided for access
@@ -59,7 +58,7 @@ int main(int argc, char const *argv[]){
 	while(noerror){
 		sigwaitinfo(&clock_set,NULL);
 		for(int i=0;i<cont.length;i++){
-			char instruction[100];
+			char instruction[113];
 			sprintf(instruction,"pkill -KILL %s\n",cont.killlist[i]);		
 			system(instruction);
 		}
