@@ -1,7 +1,6 @@
 #include "global.h"
 #include "args_interpret/public_args.h"
 #include "user_input/public_user_input.h"
-//TODO Fix everything, lint, build automation
 int main(int argc, char const *argv[]){
 	memset(&cont,0,sizeof(cont));
 	getargs(&cont,argc,argv);
