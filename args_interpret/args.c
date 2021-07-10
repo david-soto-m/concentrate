@@ -68,8 +68,9 @@ void displayhelp(){
 	printf("\tn var: Sets Next Period\n");
 }
 
-void getsettings(){
-	char file[100];
+void getsettings(context *contextvar){
+	context cont=*contextvar;
+    char file[100];
 	sprintf(file,"%s%s",getenv("HOME"),"/.config/concentrate/settings");
 	if (access(file,R_OK)==0){
 		FILE *pf=fopen(file,"r");//opens the file
@@ -204,11 +205,12 @@ void getsettings(){
 			}
 		}
 		exit(0);
-	}
+    }
+    *contextvar = cont;
 }
 
 void getargs(context *contextvar,int argc, char const *argv[]){
-	getsettings();
+	getsettings(contextvar);
 	context cont=*contextvar;
 	filesys filer={.pf=NULL,.length=0};//init the filesystem
 	//REGION ARGS

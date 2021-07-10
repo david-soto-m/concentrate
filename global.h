@@ -24,5 +24,4 @@
 		struct timespec time_default;
 		int info_time;
 	}context;
-	context cont;
 #endif
