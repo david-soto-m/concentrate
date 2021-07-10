@@ -1,8 +1,13 @@
 #include "global.h"
 #include "args_interpret/public_args.h"
 #include "user_input/public_user_input.h"
+
+//Global variable
+context cont;
+
+//TODO Lint, auto-build, DRY up
+
 int main(int argc, char const *argv[]){
-	memset(&cont,0,sizeof(cont));
 	getargs(&cont,argc,argv);
 	FILE *pf;
 	if (cont.exit==1){
@@ -34,7 +39,7 @@ int main(int argc, char const *argv[]){
 	sigaction(SIGINT,&action_ctrl_c,NULL);//handles control C interactions
 	sigaction(SIGRTMIN+2,&action_time,NULL);
 	
-	user_inter_handler();
+	user_inter_handler(&cont);
 	
 	struct itimerspec spec={.it_value=cont.timerep,.it_interval=cont.timerep};
 	struct sigevent event={.sigev_signo=SIGRTMIN+2,.sigev_notify=SIGEV_SIGNAL,.sigev_value.sival_int=1,};
@@ -52,7 +57,6 @@ int main(int argc, char const *argv[]){
 	else{
 		printf("ERROR creating timer\n");
 	}
-
 	int counts_per_minutes_group=(cont.info_time)/cont.timerep.tv_sec;
 	long int count=0;
 	while(noerror){

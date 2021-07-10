@@ -1,7 +1,12 @@
 #include "../global.h"
+
 void ignore(){
+
 }
+
+//TODO DRY this up
 void user_inter_handler(){
+    extern context cont;
 	//REGION SIGNALS
 		struct sigaction actionset={.sa_handler=ignore,.sa_flags=0,};
 		sigset_t sensible_set_handler, unsensible_set_handler, oset;
