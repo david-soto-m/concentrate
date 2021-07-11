@@ -1,5 +1,3 @@
-// Copyright: Not a thing I want to do
-
 #include "../../include/global.h"
 
 void ignore() {}

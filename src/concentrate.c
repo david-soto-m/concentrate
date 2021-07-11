@@ -1,5 +1,3 @@
-// Copyright: not a thing I want to do
-
 #include "../include/global.h"
 #include "../include/args.h"
 #include "../include/user_input.h"

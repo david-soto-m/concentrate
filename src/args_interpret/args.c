@@ -1,7 +1,4 @@
-// Copyright: nope
-
 #include"../../include/global.h"
-
 #include "./private_args.h"
 
 void poopfiles(context *contextvar,
