@@ -1,3 +1,0 @@
-#!/bin/bash
-rm concentrate
-gcc -o concentrate src/concentrate.c src/args_interpret/args.c src/user_input/user_input.c -lrt
