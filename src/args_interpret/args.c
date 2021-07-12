@@ -1,7 +1,4 @@
-// Copyright: nope
-
-#include"../global.h"
-
+#include"../../include/global.h"
 #include "./private_args.h"
 
 void poopfiles(context *contextvar,
@@ -70,12 +67,12 @@ void displayhelp() {
     printf("\tThis is a distraction free mode developed by David. An idiot.It\n");
     printf("\tmay block sources of distractions. Bugs are to be expected. Any\n");
     printf("\tresemblace to functionality is an accident and probably wont ever\n");
-    printf("\thappen again.\n");
+    printf("\thappen again. Because david is an idiot\n");
     printf("Options:\n");
     printf("\t-f: (n) [FILE]\tSigkills every instance of processes in the file.\n");
     printf("\t\t\tIt's unsafe. Be careful. It probably allows code\n");
     printf("\t\t\tinjection through input files. The validation\n");
-    printf("\t\t\tscheme only checks if the char is used in \n");
+    printf("\t\t\tscheme only checks if the char is used asdf in \n");
     printf("\t\t\tprocess names. Provide n paths either relative or\n");
     printf("\t\t\tabsolute\n");
     printf("\t-N:\tDisables the printing of an exit in a file.\n");

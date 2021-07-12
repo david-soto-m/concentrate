@@ -1,6 +1,4 @@
-// Copyright: Not a thing I want to do
-
-#include "../global.h"
+#include "../../include/global.h"
 
 void ignore() {}
 

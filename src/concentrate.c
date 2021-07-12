@@ -1,8 +1,6 @@
-// Copyright: not a thing I want to do
-
-#include "./global.h"
-#include "args_interpret/public_args.h"
-#include "user_input/public_user_input.h"
+#include "../include/global.h"
+#include "../include/args.h"
+#include "../include/user_input.h"
 
 // Global variable
 context cont;

@@ -1,7 +1,5 @@
-// Copyright: not something I am interested in
-
-#ifndef GLOBAL_H_
-    #define GLOBAL_H_
+#ifndef INCLUDE_GLOBAL_H_
+    #define INCLUDE_GLOBAL_H_
     #include <stdio.h>
     #include <string.h>
     #include <signal.h>
@@ -26,4 +24,4 @@
         struct timespec time_default;
         int info_time;
     } context;
-#endif  // GLOBAL_H_
+#endif  // INCLUDE GLOBAL_H_
