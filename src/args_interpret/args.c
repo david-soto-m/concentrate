@@ -1,6 +1,6 @@
 #include <global.h>
 #include "./private_args.h"
-#include <translate.h>
+#include <printers.h>
 
 void poopfiles(context *contextvar,
                filesys *filesysvar,
@@ -50,12 +50,11 @@ void poopfiles(context *contextvar,
                 }
                 fclose(filer.pf[j]);
             } else {
-                printf("Error opening file %s\n", files[j]);
+                err_fopen(files[j]);
                 exit(0);
             }
         } else {
-            printf(_("File %s not existant or not accesible with your current permissions\n"),
-                files[j]);
+            err_perm_exist (files[j]);
             exit(0);
         }
     }
@@ -63,25 +62,6 @@ void poopfiles(context *contextvar,
     *filesysvar = filer;
 }
 
-void displayhelp() {
-    printf("Concentrate: Concentrate [OPTIONS] \n");
-    printf("\tThis is a distraction free mode developed by David. An idiot.It\n");
-    printf("\tmay block sources of distractions. Bugs are to be expected. Any\n");
-    printf("\tresemblace to functionality is an accident and probably wont ever\n");
-    printf("\thappen again. Because david is an idiot\n");
-    printf("Options:\n");
-    printf("\t-f: (n) [FILE]\tSigkills every instance of processes in the file.\n");
-    printf("\t\t\tIt's unsafe. Be careful. It probably allows code\n");
-    printf("\t\t\tinjection through input files. The validation\n");
-    printf("\t\t\tscheme only checks if the char is used asdf in \n");
-    printf("\t\t\tprocess names. Provide n paths either relative or\n");
-    printf("\t\t\tabsolute\n");
-    printf("\t-N:\tDisables the printing of an exit in a file.\n");
-    printf("Actions:\n");
-    printf("\tq var?: Quits\n");
-    printf("\tt var: Time Off\n");
-    printf("\tn var: Sets Next Period\n");
-}
 
 void getsettings(context *contextvar) {
     context cont = *contextvar;
@@ -103,25 +83,24 @@ void getsettings(context *contextvar) {
                         cont.nextjump = sure > 0 ? sure * 60 : - sure * 60;
                         flags[0] = 1;
                     } else {
-                        printf("NEXTJUMP needs to be a non zero int \n");
+                        err_nextjump();
                     }
                 } else if (strcmp(buff1, "DEFAULTS_PATH") == 0) {
                     if (access(buff2, F_OK) == 0) {
                         strcpy(cont.defaults_path, buff2);
                         flags[1] = 1;
                     } else {
-                        printf("DEFAULTS_PATH is not accessible or existant\n");
+                        err_defaults_path ();
                         if (errno == ENOTDIR) {
-                            printf("Path is not pointing to an existing directory for the file\n");
+                            err_path();
                         } else {
                             FILE *pfdb = fopen(buff2, "w");
                             if (pfdb) {
-                                printf("Creating file:\n");
+                                file_create();
                                 fprintf(pfdb, "rythmbox\nvlc\n");
                                 fclose(pfdb);
                                 flags[1] = 1;
                             } else {
-                                printf("You need a file pointed by a path by DEFAULTS_PATH and permission to access it\n");
                             }
                         }
                     }
@@ -246,7 +225,7 @@ void getargs(context *contextvar, int argc, char const *argv[]) {
         for (int i = 1; i < argc; i++) {
             if (strcmp(argv[i], "-h") == 0) {
                 // HELP
-                displayhelp();
+                display_help();
                 exit(1);
             } else if (strcmp(argv[i], "-f") == 0
                        && i+1 < argc
