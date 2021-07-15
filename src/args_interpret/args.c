@@ -1,5 +1,6 @@
-#include"../../include/global.h"
+#include <global.h>
 #include "./private_args.h"
+#include <translate.h>
 
 void poopfiles(context *contextvar,
                filesys *filesysvar,
@@ -53,7 +54,7 @@ void poopfiles(context *contextvar,
                 exit(0);
             }
         } else {
-            printf("File %s not existant or not accesible with your current permissions\n",
+            printf(_("File %s not existant or not accesible with your current permissions\n"),
                 files[j]);
             exit(0);
         }

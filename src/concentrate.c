@@ -1,11 +1,15 @@
-#include "../include/global.h"
-#include "../include/args.h"
-#include "../include/user_input.h"
+#include <global.h>
+#include <translate.h>
+#include <args.h>
+#include <user_input.h>
 
 // Global variable
 context cont;
 
 int main(int argc, char const *argv[]) {
+    setlocale(LC_ALL,"");
+    bindtextdomain(GETTEXT_PACKAGE,LOCALEDIR);
+    textdomain(GETTEXT_PACKAGE);
     getargs(&cont, argc, argv);
     FILE *pf;
     if (cont.exit == 1) {
