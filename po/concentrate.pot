@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: concentrate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-16 00:24+0200\n"
+"POT-Creation-Date: 2021-07-16 20:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,37 +19,57 @@ msgstr ""
 
 #: src/printers/printers.c:5
 #, c-format
-msgid "Error opening file %s\n"
+msgid "%s needs to be a non zero int \n"
 msgstr ""
 
-#: src/printers/printers.c:10
+#: src/printers/printers.c:9
 #, c-format
-msgid "File %s not existant or not accesible with your current permissions\n"
+msgid "%s is not accessible or existant\n"
 msgstr ""
 
-#: src/printers/printers.c:15
+#: src/printers/printers.c:13
 #, c-format
-msgid "NEXTJUMP needs to be a non zero int \n"
+msgid "Creating file:\n"
 msgstr ""
 
-#: src/printers/printers.c:19
+#: src/printers/printers.c:17
 #, c-format
-msgid "DEFAULTS_PATH is not accessible or existant\n"
+msgid "Making directory\n"
 msgstr ""
 
-#: src/printers/printers.c:23
+#: src/printers/printers.c:21
 #, c-format
-msgid "Path is not pointing to an existing directory for the file\n"
+msgid "Invalid setting\n"
 msgstr ""
 
-#: src/printers/printers.c:28
+#: src/printers/printers.c:26
 #, c-format
 msgid ""
-"You need a file pointed by a path by DEFAULTS_PATH and permission to        "
-"access it.\n"
+"ERROR: SETTINGS not right. Please take a look at error message.\n"
+"Modify accordingly ~/.config/concentrate/settings\n"
 msgstr ""
 
-#: src/printers/printers.c:34
+#: src/printers/printers.c:31
+#, c-format
+msgid "Invalid argument\n"
+msgstr ""
+
+#: src/printers/printers.c:35
+#, c-format
+msgid "No directory found\n"
+msgstr ""
+
+#: src/printers/printers.c:39
+#, c-format
+msgid "I will block:\n"
+msgstr ""
+
+#: src/printers/printers.c:43
+#, c-format
+msgid "I will block them every %ld seconds\n"
+msgstr ""
+
+#: src/printers/printers.c:56
 #, c-format
 msgid ""
 "Concentrate: Concentrate [OPTIONS] \n"
@@ -62,13 +82,37 @@ msgid ""
 "-f: (n) [FILE]\n"
 "\tSigkills every instance of processes in the file.It's unsafe. Be \n"
 "\tcareful. It probably allows code injection through input files. The\n"
-"\tvalidation scheme only checks if the char is used asdf in process names.\n"
+"\tvalidation scheme only checks if the char is used in process names.\n"
 "\t Provide n paths either relative or absolute\n"
 "-N:\n"
 "\tDisables the printing of an exit in a file.\n"
+msgstr ""
+
+#: src/printers/printers.c:74
+#, c-format
+msgid ""
 "\n"
-"Actions:\n"
-"q var?: Quits\n"
-"t var: Time Off\n"
-"n var: Sets Next Period\n"
+"Interacting:\t"
+msgstr ""
+
+#: src/printers/printers.c:78
+#, c-format
+msgid "exiting\n"
+msgstr ""
+
+#: src/printers/printers.c:82
+#, c-format
+msgid ""
+"\n"
+"Are you using delaying tactics?\n"
+msgstr ""
+
+#: src/printers/printers.c:86
+#, c-format
+msgid "starting break\n"
+msgstr ""
+
+#: src/printers/printers.c:90
+#, c-format
+msgid "Finished handling\n"
 msgstr ""

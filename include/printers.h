@@ -1,11 +1,28 @@
 #ifndef INCLUDE_PRINTERS_H_
     #define INCLUDE_PRINTERS_H_
-    void err_fopen(const char *file);
-    void err_perm_exist(const char *file);
+
     void display_help();
-    void err_nextjump();
-    void err_defaults_path();
+    void act_help();
+
+    void err_non_zero_int();
     void err_path();
-    void err_perm_def();
+    void err_dir();
+
     void file_create();
+    void dir_create();
+
+    void inv_setting();
+    void err_settings();
+
+    void inv_argument();
+
+    void block_announcement();
+    void seconds_announcement(long int secs);
+
+    void exit_msg();
+    void break_msg();
+    void interact_msg();
+    void delay_msg();
+    void finish_msg();
+
 #endif  // INCLUDE_PRINTERS_H_

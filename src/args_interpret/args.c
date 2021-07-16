@@ -2,7 +2,7 @@
 #include "./private_args.h"
 #include <printers.h>
 
-void poopfiles(context *contextvar,
+void get_blocklist(context *contextvar,
                filesys *filesysvar,
                int argc,
                char const *files[]) {
@@ -50,11 +50,11 @@ void poopfiles(context *contextvar,
                 }
                 fclose(filer.pf[j]);
             } else {
-                err_fopen(files[j]);
+                err_path(files[j]);
                 exit(0);
             }
         } else {
-            err_perm_exist (files[j]);
+            err_path(files[j]);
             exit(0);
         }
     }
@@ -77,22 +77,22 @@ void getsettings(context *contextvar) {
             char buff1[100], buff2[100];
             cont.exit = 1;
             while (fscanf(pf, "%s : %s \n", buff1, buff2) > 0) {
-                if (strcmp(buff1, "NEXTJUMP") == 0) {
+                if (strcmp(buff1, NEXTJUMP) == 0) {
                     int sure;
                     if (sscanf(buff2, "%d", &sure) == 1 && sure != 0) {
-                        cont.nextjump = sure > 0 ? sure * 60 : - sure * 60;
+                        cont.nextjump = (sure > 0 ? sure : - sure) * 60;
                         flags[0] = 1;
                     } else {
-                        err_nextjump();
+                        err_non_zero_int(NEXTJUMP);
                     }
-                } else if (strcmp(buff1, "DEFAULTS_PATH") == 0) {
+                } else if (strcmp(buff1, DEFAULTS_PATH) == 0) {
                     if (access(buff2, F_OK) == 0) {
                         strcpy(cont.defaults_path, buff2);
                         flags[1] = 1;
                     } else {
-                        err_defaults_path ();
+                        err_path (DEFAULTS_PATH);
                         if (errno == ENOTDIR) {
-                            err_path();
+                            err_path(DEFAULTS_PATH);
                         } else {
                             FILE *pfdb = fopen(buff2, "w");
                             if (pfdb) {
@@ -101,62 +101,61 @@ void getsettings(context *contextvar) {
                                 fclose(pfdb);
                                 flags[1] = 1;
                             } else {
+                                err_path(DEFAULTS_PATH);
                             }
                         }
                     }
-                } else if (strcmp(buff1, "EXIT_PATH") == 0) {
+                } else if (strcmp(buff1, EXIT_PATH) == 0) {
                     if (access(buff2, F_OK) == 0) {
                         strcpy(cont.exit_path, buff2);
                         flags[2] = 1;
                     } else {
-                        printf("EXIT_PATH is not accessible or existant\n");
+                        err_path(EXIT_PATH);
                     }
-                } else if (strcmp(buff1, "DEFAULT_TIME") == 0) {
+                } else if (strcmp(buff1, DEFAULT_TIME) == 0) {
                     int sure;
                     if (sscanf(buff2, "%d", &sure) == 1 && sure != 0) {
                         cont.time_default.tv_sec = sure > 0 ? sure : -sure;
                         cont.time_default.tv_nsec = 0;
                         flags[3] = 1;
                     } else {
-                        printf("DEFAULT_TIME needs to be a non zero int\n");
+                        err_non_zero_int(DEFAULT_TIME);
                     }
-                } else if (strcmp(buff1, "INFO_TIME") == 0) {
+                } else if (strcmp(buff1, INFO_TIME) == 0) {
                     int sure;
                     if (sscanf(buff2, "%d", &sure) == 1 && sure != 0) {
-                        cont.info_time = sure > 0 ? sure * 60 : - sure * 60;
+                        cont.info_time = (sure > 0 ? sure : - sure) * 60;
                         flags[4] = 1;
                     } else {
-                        printf("INFO_TIME needs to be a non zero int\n");
+                        err_non_zero_int(INFO_TIME);
                     }
-                } else if (strcmp(buff1, "EXIT") == 0) {
+                } else if (strcmp(buff1, EXIT) == 0) {
                     // Optional argument
-                    if (strcmp(buff2, "FALSE") == 0) {
+                    if (strcmp(buff2, FALSE) == 0) {
                         cont.exit = 0;
                     } else {
                         cont.exit = 1;
                     }
                 } else {
-                    printf("Invalid asignment\n");
+                    inv_setting();
                 }
             }
             for (int i = 0; i < OBLIG_ARGS; i++) {
                 if (flags[i] != 1) {
-                    printf("ERROR: SETTINGS not right. Please take a look at error message.\n");
-                    printf("Modify accordingly ~/.config/concentrate/settings\n");
+                    err_settings();
                     fclose(pf);
                     exit(0);
                 }
             }
             fclose(pf);
         } else {
-            printf("Error opening file %s\n", file);
+            err_path(file);
             exit(0);
         }
     } else {
         // ERRORS IN SETTINGS FILES
         char all_right = 0;
-        printf("File %s not existant or not accesible with your current permissions\n",
-            file);
+        err_path(file);
         if (access(file, F_OK) == 0) {
             all_right = 1;
         } else if (ENOENT == errno) {
@@ -164,33 +163,33 @@ void getsettings(context *contextvar) {
             sprintf(dir, "%s%s", getenv("HOME"), "/.config/concentrate");
             struct stat st = {0};
             if (stat(dir, &st) == -1) {
-                printf("No directory found\n");
+                err_dir();
                 if (mkdir(dir, 0700) == 0) {
-                    printf("Making directory\n");
+                    dir_create();
                     all_right = 1;
                 } else {
-                    printf("Problem making directory\n");
-                    printf("You need a directory in .config called concentrate and permission to access it\n");
+                    err_path("~/.config/concentrate");
                 }
             } else {
                 all_right = 1;
             }
         } else {
-            printf("You need a directory in .config called concentrate and permission to access it\n");
+            err_path("~/.config/concentrate");
         }
         if (all_right) {
-            printf("File is non existant. Creating and exiting\n");
+            file_create();
             FILE *pf = fopen(file, "w");
             if (pf) {
-                fprintf(pf, "NEXTJUMP : 30\n");
-                fprintf(pf, "DEFAULT_TIME : 15\n");
-                fprintf(pf, "INFO_TIME : 5\n");
+                fprintf(pf, "%s : 30\n", NEXTJUMP);
+                fprintf(pf, "%s : 15\n", DEFAULT_TIME);
+                fprintf(pf, "%s : 5\n", INFO_TIME);
                 fprintf(
                     pf,
-                    "DEFAULTS_PATH : %s%s/defaultblock\n",
+                    "%s %s%s/defaultblock\n",
+                    DEFAULTS_PATH,
                     getenv("HOME"),
                     "/.config/concentrate");
-                fprintf(pf, "EXIT_PATH : %s/.bashrc\n", getenv("HOME"));
+                fprintf(pf, "%s %s/.bashrc\n", EXIT_PATH, getenv("HOME"));
                 fclose(pf);
                 char file_db[100];
                 sprintf(
@@ -203,10 +202,10 @@ void getsettings(context *contextvar) {
                     fprintf(pfdb, "rythmbox\nvlc\n");
                     fclose(pfdb);
                 } else {
-                    printf("You need a file pointed by a path by DEFAULTS_PATH and permission to access it\n");
+                    err_path(DEFAULTS_PATH);
                 }
             } else {
-                printf("You need a directory in .config called concentrate and permission to access and write on it\n");
+                err_path("~/.config/concentrate");
             }
         }
         exit(0);
@@ -241,16 +240,19 @@ void getargs(context *contextvar, int argc, char const *argv[]) {
                     for (int j = 0; j < filer.length; j++) {
                         files[j] = argv[i + 2 + j];
                     }
-                    poopfiles(&cont, &filer, argc, files);
+                    get_blocklist(&cont, &filer, argc, files);
                     // gets all the processes to block
                     i = i + filer.length + 1;
             } else if(strcmp(argv[i], "-t") == 0
                       && i + 1 < argc
-                      && sscanf(argv[i + 1], "%ld", &cont.timerep.tv_sec) == 1) {
+                      && sscanf(
+                            argv[i + 1], 
+                            "%ld", 
+                            &cont.timerep.tv_sec) == 1) {
                 i++;
             } else if (strcmp(argv[i], "-N") == 0) {
             } else {
-                printf("Invalid argument\n");
+                inv_argument();
                 exit(2);
             }
         }
@@ -269,13 +271,13 @@ void getargs(context *contextvar, int argc, char const *argv[]) {
         filer.length = 1;
         filer.pf = (FILE **)malloc(filer.length * sizeof(FILE*));
         // Generates a list of file pointers
-        poopfiles(&cont, &filer, 1, files);
+        get_blocklist(&cont, &filer, 1, files);
     }
     // REGION ANNOUNCMENT
-    printf("I will block:\n");
+    block_announcement();
     for (int j = 0; j < cont.length; j++) {
         printf("\t%s\n", cont.killlist[j]);
     }
-    printf("I will block them every %ld seconds\n", cont.timerep.tv_sec);
+    seconds_announcement(cont.timerep.tv_sec);
     *contextvar = cont;
 }

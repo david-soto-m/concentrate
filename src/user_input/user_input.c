@@ -1,4 +1,5 @@
-#include "../../include/global.h"
+#include <global.h>
+#include <printers.h>
 
 void ignore() {}
 
@@ -60,12 +61,12 @@ void user_inter_handler() {
     int mins;
     int timesig = 0;
     if (time_curr_act.tv_sec - time_last_act.tv_sec > cont.nextjump) {
-        printf("\nInteracting:\t");
+        interact_msg();
         timesig = scanf("%10s %d", buff, &mins);
     }
     if (timesig == 1) {
         if (strcmp(buff, "q") == 0) {
-            printf("exiting\n");
+            exit_msg();
             char instruction[180];
             if (cont.exit == 1) {
                 sprintf(instruction, "%s %s", "sed -i '$d'", cont.exit_path);
@@ -74,10 +75,7 @@ void user_inter_handler() {
             }
             exit(0);
         } else {
-            printf("Actions:\n");
-            printf("\tq var?: Quits\n");
-            printf("\tt var: Time Off\n");
-            printf("\tn var: Sets Next Period\n");
+            act_help();
         }
     } else if (timesig == 2) {
         a.it_value = time0;
@@ -86,7 +84,7 @@ void user_inter_handler() {
         timer_settime(temp, 0, &a, NULL);
 
         if (strcmp(buff, "t") == 0) {
-            printf("starting break\n");
+            break_msg();
             int time_rest = mins*60;
             while (time_rest) {
                 time_rest = sleep(time_rest);
@@ -95,7 +93,7 @@ void user_inter_handler() {
         } else if (strcmp(buff, "n") == 0) {
             cont.nextjump = mins * 60;
         } else if (strcmp(buff, "q") == 0) {
-            printf("exiting\n");
+            exit_msg();
             char instruction[180];
             if (cont.exit == 1) {
                 sprintf(instruction, "%s %s", "sed -i '$d'", cont.exit_path);
@@ -104,18 +102,15 @@ void user_inter_handler() {
             }
             exit(0);
         } else {
-            printf("Actions:\n");
-            printf("\tq var?:\tQuits\n");
-            printf("\tt var:\tTime Off\n");
-            printf("\tn var:\tSets Next Period\n");
+            act_help();
         }
     } else {
         if (flag != 0) {
-            printf("\nAre you using delaying tactics?\n");
+            delay_msg();
         }
     }
     if (flag != 0) {
-        printf("Finished handling\n");
+        finish_msg();
     }
     flag = 1;
     sigprocmask(SIG_SETMASK, &oset, NULL);
