@@ -1,0 +1,139 @@
+# Spanish translations for concentrate package.
+# Copyright (C) 2021 THE concentrate'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the concentrate package.
+# Automatically generated, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: concentrate\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-16 20:08+0200\n"
+"PO-Revision-Date: 2021-07-16 00:24+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/printers/printers.c:5
+#, c-format
+msgid "%s needs to be a non zero int \n"
+msgstr "%s necesita ser un entero no cero\n"
+
+#: src/printers/printers.c:9
+#, c-format
+msgid "%s is not accessible or existant\n"
+msgstr "%s no es accessible o no es existente\n"
+
+#: src/printers/printers.c:13
+#, c-format
+msgid "Creating file:\n"
+msgstr "Creando archivo\n"
+
+#: src/printers/printers.c:17
+#, c-format
+msgid "Making directory\n"
+msgstr "Creando el directorio\n"
+
+#: src/printers/printers.c:21
+#, c-format
+msgid "Invalid setting\n"
+msgstr "Ajuste no válido\n"
+
+#: src/printers/printers.c:26
+#, c-format
+msgid ""
+"ERROR: SETTINGS not right. Please take a look at error message.\n"
+"Modify accordingly ~/.config/concentrate/settings\n"
+msgstr ""
+"ERROR: Ajustes no correctos. Por favor comprueba el mensaje de error."
+"Modifica ~/.config/concentrate/settings acordemente\n"
+
+#: src/printers/printers.c:31
+#, c-format
+msgid "Invalid argument\n"
+msgstr "Argumento no válido\n"
+
+#: src/printers/printers.c:35
+#, c-format
+msgid "No directory found\n"
+msgstr "Directorio no encontrado\n"
+
+#: src/printers/printers.c:39
+#, c-format
+msgid "I will block:\n"
+msgstr "Bloquearé\n"
+
+#: src/printers/printers.c:43
+#, c-format
+msgid "I will block them every %ld seconds\n"
+msgstr "Los bloquearé cada %ld segundos\n"
+
+#: src/printers/printers.c:56
+#, c-format
+msgid ""
+"Concentrate: Concentrate [OPTIONS] \n"
+"This is a distraction free mode developed by David. An idiot. It may block\n"
+"sources of distractions. Bugs are to be expected. Any resemblace to\n"
+"functionality is an accident and probably wont ever happen again.\n"
+"Because David is an idiot\n"
+"\n"
+"Options:\n"
+"-f: (n) [FILE]\n"
+"\tSigkills every instance of processes in the file.It's unsafe. Be \n"
+"\tcareful. It probably allows code injection through input files. The\n"
+"\tvalidation scheme only checks if the char is used in process names.\n"
+"\t Provide n paths either relative or absolute\n"
+"-N:\n"
+"\tDisables the printing of an exit in a file.\n"
+msgstr ""
+"Concentrate: Concentrate [OPTIONS] \n"
+"Este es un modo sin distracciones hecho por un idiota, David. Puede que\n"
+"bloquee algunas fuentes de distracciones. Habrá bugs. Cualquier cosa que se\n"
+"parezca a funcionalidad es un accidente y probablemente no volverá "
+"aocurrir.\n"
+" Porque David, es imbécil\n"
+"\n"
+"Opciones:\n"
+"-f: (n) [Archivo]\n"
+"\tSigkillea cada programa que se encuentre en el archivo. Ten cuidado\n"
+"\tProbablemente se pueda inyectar código. El esquema de validación solo\n"
+"\tcomprueba que los caracteres se usen en nombres de procesos\n"
+"\tDeben proveerse n caminos relativos o absolutos\n"
+"-N:\n"
+"\tDesabilita el imprimir un exit en un archivo\n"
+
+#: src/printers/printers.c:74
+#, c-format
+msgid ""
+"\n"
+"Interacting:\t"
+msgstr ""
+"\n"
+"Interactuando:\t"
+
+#: src/printers/printers.c:78
+#, c-format
+msgid "exiting\n"
+msgstr "Terminando\n"
+
+#: src/printers/printers.c:82
+#, c-format
+msgid ""
+"\n"
+"Are you using delaying tactics?\n"
+msgstr ""
+"\n"
+"¿Estás intentando retrasar lo inevitable?\n"
+
+#: src/printers/printers.c:86
+#, c-format
+msgid "starting break\n"
+msgstr "Empezando el descanso\n"
+
+#: src/printers/printers.c:90
+#, c-format
+msgid "Finished handling\n"
+msgstr "Terminando el manejo\n"

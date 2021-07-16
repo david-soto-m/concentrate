@@ -4,6 +4,7 @@ sub_sources = []
 
 subdir('args_interpret')
 subdir('user_input')
+subdir('printers')
 
 subsrc_list = []
 
