@@ -90,7 +90,7 @@ void getsettings(context *contextvar) {
                         strcpy(cont.defaults_path, buff2);
                         flags[1] = 1;
                     } else {
-                        err_path (DEFAULTS_PATH);
+                        err_path(DEFAULTS_PATH);
                         if (errno == ENOTDIR) {
                             err_path(DEFAULTS_PATH);
                         } else {
@@ -243,11 +243,11 @@ void getargs(context *contextvar, int argc, char const *argv[]) {
                     get_blocklist(&cont, &filer, argc, files);
                     // gets all the processes to block
                     i = i + filer.length + 1;
-            } else if(strcmp(argv[i], "-t") == 0
+            } else if (strcmp(argv[i], "-t") == 0
                       && i + 1 < argc
                       && sscanf(
-                            argv[i + 1], 
-                            "%ld", 
+                            argv[i + 1],
+                            "%ld",
                             &cont.timerep.tv_sec) == 1) {
                 i++;
             } else if (strcmp(argv[i], "-N") == 0) {

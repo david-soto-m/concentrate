@@ -7,8 +7,8 @@
 context cont;
 
 int main(int argc, char const *argv[]) {
-    setlocale(LC_ALL,"");
-    bindtextdomain(GETTEXT_PACKAGE,LOCALEDIR);
+    setlocale(LC_ALL, "");
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
     textdomain(GETTEXT_PACKAGE);
     getargs(&cont, argc, argv);
     FILE *pf;
