@@ -4,4 +4,4 @@
     #include <config.h>
     #include <libintl.h>
     #include <locale.h>
-#endif //TRANSLATIONS_H_
+#endif  // TRANSLATIONS_H_
