@@ -185,11 +185,12 @@ void getsettings(context *contextvar) {
                 fprintf(pf, "%s : 5\n", INFO_TIME);
                 fprintf(
                     pf,
-                    "%s %s%s/defaultblock\n",
+                    "%s : %s%s/defaultblock\n",
                     DEFAULTS_PATH,
                     getenv("HOME"),
                     "/.config/concentrate");
-                fprintf(pf, "%s %s/.bashrc\n", EXIT_PATH, getenv("HOME"));
+                fprintf(pf, "%s : %s/.bashrc\n", EXIT_PATH, getenv("HOME"));
+                fprintf(pf, "%s : FALSE\n", EXIT);
                 fclose(pf);
                 char file_db[100];
                 sprintf(
