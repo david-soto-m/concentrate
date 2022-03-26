@@ -1,3 +1,9 @@
+# ***WARNING***
+
+This project is worse than the alternative written in rust [focus-ami](https://github.com/david-soto-m/Focus)
+Focus does not have a Spanish translation, but behaves better and is less likely to break down on you, and way more friendly to use.
+
+
 # Concentrate
 
 It's a program that sends sigkills to the processes specified in files.
